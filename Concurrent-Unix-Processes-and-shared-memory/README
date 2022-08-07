@@ -1,0 +1,43 @@
+Type the following in your terminal:
+
+	Step-1: make
+	Step-2: ./logParse [-h -i input.dat -o output.dat -t time(in seconds)]
+
+Project consist of one program, which will fork off versions of itself to do some file processing. To do
+this, it will start by taking some command line arguments. Executable called "logParse". It
+implements at least the following command line arguments using getopt:
+-h
+-i inputfilename
+-o outputfilename
+-t time
+The option -h displays all legal command line options and how it is expected to run, as well as the default
+behavior. If input and output filenames are not specified, the defaults be input.dat and output.dat. time
+specifies the maximum duration the code should run (default 10 seconds).
+It will open the given or default input file and start with a number on a line by itself, with that number indicating the amount of subtasks program
+will have to solve using copies of it's process created with fork. Every other line of the file will contain a subtask,
+which will consist of a list of integers. An example of this input file is below:
+3
+9 3 34 4 12 5 2
+6 3 2 7 1
+256 3 5 7 8 9 1
+Your data file has the number of problems to be solved on the first line (3 in the example), and one instance of the
+problem on each subsequent line.
+
+The original process reads the first line of the file. Once it has read that line, it should then go into a loop
+based on that number, with each iteration of the loop forking off a copy that will then process the next line. Once
+that child has finished its work, it will write some data to the output file and then terminate. At that
+point, the parent detects that its child has terminated, and it should initiate another iteration of the loop until all
+instances have been solved. After all children have terminated. the parent will write the pids of all of its children
+that it launched, as well as its own pid to the output file.
+When a child process starts, it reads the next line of the file. We see in our example file that the first forked
+child would read the line with 7 numbers.
+
+The task the child must complete with these numbers is the subset sum problem. In particular, process must
+find if any subset of numbers in that list sum to the first number. If it does, it outputs the set of numbers that
+sums to that value to the output file, starting with its pid.
+
+For example, given the first subtask in the above code, possible output might be:
+
+	13278: 4 + 5 = 9
+
+Thank you!
